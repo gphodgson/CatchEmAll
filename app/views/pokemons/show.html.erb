@@ -1,2 +1,7 @@
-<h1>Pokemons#show</h1>
-<p>Find me in app/views/pokemons/show.html.erb</p>
+<div>
+  <h1 class="title"> <%= @pokemon.name.capitalize %></h1>
+
+  <div>
+    <img width="300px" hight="300px" src="<%= @pokemon.img %>" alt="<%=  @pokemon.name %>">
+  </div>
+</div>

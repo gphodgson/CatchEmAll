@@ -8,6 +8,7 @@ class Pokemon < ApplicationRecord
   # --------------------------
   # Name:           | String  | Required
   # Pokedex_Number  | Integer | Required, Numeric, Whole Number
+  # Img             | Text    | Required
   # Thumb:          | Text    | Required
   #
   # Assocations
@@ -18,6 +19,6 @@ class Pokemon < ApplicationRecord
 
   has_one :stat
 
-  validates :name, :pokedex_number, :thumb, presence: true
+  validates :name, :pokedex_number, :img, :thumb, presence: true
   validates :pokedex_number, numericality: { only_integer: true }
 end
