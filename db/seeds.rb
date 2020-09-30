@@ -20,8 +20,19 @@ response["results"].each do |pokemon_ref|
   urlimage = URI.open("https://pokeres.bastionbot.org/images/pokemon/#{pokemon_res['id']}.png") # Image Remote URL
   image.from_blob(urlimage.read)
 
-  pix = image.scale(1, 1)
-  average_color = pix.pixel_color(0, 0).to_color[0..6]
+  total = 0
+  avg   = { r: 0.0, g: 0.0, b: 0.0 }
+  image.quantize.color_histogram.each do |c, n|
+    avg[:r] += n * c.red
+    avg[:g] += n * c.green
+    avg[:b] += n * c.blue
+    total   += n
+  end
+  %i[r g b].each { |comp| avg[comp] /= total }
+  %i[r g b].each { |comp| avg[comp] = (avg[comp] / Magick::QuantumRange * 255).to_i }
+
+  average_color = "##{avg[:r].to_s(16)}#{avg[:g].to_s(16)}#{avg[:b].to_s(16)}"
+  puts average_color
 
   pokemon = Pokemon.new(
     name:           pokemon_res["name"],
@@ -33,7 +44,7 @@ response["results"].each do |pokemon_ref|
 
   if pokemon&.valid?
     pokemon.save
-    puts pokemon.inspect
+    # puts pokemon.inspect
   else
     puts "error with pokemon `#{pokemon_res['name']}`"
   end
