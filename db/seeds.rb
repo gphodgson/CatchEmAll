@@ -18,6 +18,7 @@ response["results"].each do |pokemon_ref|
   pokemon = Pokemon.new(
     name:           pokemon_res["name"],
     pokedex_number: pokemon_res["id"],
+    img:            "https://pokeres.bastionbot.org/images/pokemon/#{pokemon_res['id']}.png",
     thumb:          pokemon_res["sprites"]["versions"]["generation-ii"]["gold"]["front_default"]
   )
 
