@@ -1,5 +1,13 @@
 <div>
-  <h1 class="title"> <%= @pokemon.name.capitalize %></h1>
+  <h1>
+    <%if @prev_pokemon%>
+      <%= link_to "<--", @prev_pokemon %>
+    <%end%>
+    <span class="title">#<%= @pokemon.pokedex_number %>: <%= @pokemon.name.capitalize %></span>
+    <%if @next_pokemon%>
+      <%= link_to "-->", @next_pokemon %>
+    <%end%>
+  </h1>
 
   <div>
     <img width="300px" hight="300px" src="<%= @pokemon.img %>" alt="<%=  @pokemon.name %>">

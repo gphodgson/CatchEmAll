@@ -1,13 +1,9 @@
 <h1 class="title">All Pokemon</h1>
 
 <style>
-  center-text{
-    text-align: center;
-  }
 
-  wrap-content{
-    width:50px
-  }
+
+
 </style>
 
 <div class="table-container">
@@ -37,7 +33,7 @@
           </td>
 
           <td style=""></td>
-          <td style="width: 25px"><input type="checkbox" name="caught" id="caught"></td>
+          <td style="width: 25px"><input type="checkbox" name="<%= pokemon.name %>_check" id="<%= pokemon.name %>_check"></td>
         </tr>
       <% end %>
     </tbody>
