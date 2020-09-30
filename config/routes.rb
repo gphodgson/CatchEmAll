@@ -1,3 +1,4 @@
 Rails.application.routes.draw do
-  resources :pokemon, only: %i[index show]
+  resources :stats, only: [:show]
+  resources :pokemons, only: %i[index show]
 end
