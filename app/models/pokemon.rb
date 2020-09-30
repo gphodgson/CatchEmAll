@@ -10,6 +10,7 @@ class Pokemon < ApplicationRecord
   # Pokedex_Number  | Integer | Required, Numeric, Whole Number
   # Img             | Text    | Required
   # Thumb:          | Text    | Required
+  # Color           | String  |
   #
   # Assocations
   # --------------------
