@@ -1,7 +1,32 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rails db:seed command (or created alongside the database with db:setup).
-#
-# Examples:
-#
-#   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
-#   Character.create(name: 'Luke', movie: movies.first)
+require "net/http"
+require "json"
+require "pp"
+
+Pokemon.delete_all
+Stat.delete_all
+
+url = "https://pokeapi.co/api/v2/pokemon/?limit=151"
+uri = URI(url)
+response = JSON.parse(Net::HTTP.get(uri))
+
+response["results"].each do |pokemon_ref|
+  url = pokemon_ref["url"]
+  uri = URI(url)
+
+  pokemon_res = JSON.parse(Net::HTTP.get(uri))
+
+  pokemon = Pokemon.new(
+    name:           pokemon_res["name"],
+    pokedex_number: pokemon_res["id"],
+    thumb:          pokemon_res["sprites"]["versions"]["generation-ii"]["gold"]["front_default"]
+  )
+
+  if pokemon&.valid?
+    pokemon.save
+    puts pokemon.inspect
+  else
+    puts "error with pokemon `#{pokemon_res['name']}`"
+  end
+end
+
+puts "Added #{Pokemon.count} Pokemon."
