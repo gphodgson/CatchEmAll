@@ -12,6 +12,7 @@ class Pokemon < ApplicationRecord
   #
   # Assocations
   # --------------------
+  # Has one `Stat`
   #
   #======================
 
