@@ -1,0 +1,19 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  pokemon: one
+  hp: 1
+  attack: 1
+  defense: 1
+  special_attack: 1
+  special_defense: 
+  speed: 1
+
+two:
+  pokemon: two
+  hp: 1
+  attack: 1
+  defense: 1
+  special_attack: 1
+  special_defense: 
+  speed: 1
