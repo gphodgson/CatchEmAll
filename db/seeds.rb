@@ -16,7 +16,7 @@ response["results"].each do |pokemon_ref|
 
   pokemon_res = JSON.parse(Net::HTTP.get(uri))
 
-  average_color = get_average_color(pokemon_res["sprites"]["versions"]["generation-i"]["yellow"]["front_default"]
+  average_color = get_average_color(pokemon_res["sprites"]["versions"]["generation-i"]["yellow"]["front_default"])
 
   puts "#{pokemon_res['name'].capitalize}: ##{pokemon_res['id']} | color: #{average_color}"
 
