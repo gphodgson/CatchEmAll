@@ -16,8 +16,31 @@ response["results"].each do |pokemon_ref|
 
   pokemon_res = JSON.parse(Net::HTTP.get(uri))
 
+  average_color = get_average_color(pokemon_res["sprites"]["versions"]["generation-i"]["yellow"]["front_default"]
+
+  puts "#{pokemon_res['name'].capitalize}: ##{pokemon_res['id']} | color: #{average_color}"
+
+  pokemon = Pokemon.new(
+    name:           pokemon_res["name"],
+    pokedex_number: pokemon_res["id"],
+    img:            "https://pokeres.bastionbot.org/images/pokemon/#{pokemon_res['id']}.png",
+    thumb:          pokemon_res["sprites"]["versions"]["generation-i"]["yellow"]["front_default"],
+    color:          average_color
+  )
+
+  if pokemon&.valid?
+    pokemon.save
+    # puts pokemon.inspect
+  else
+    puts "error with pokemon `#{pokemon_res['name']}`"
+  end
+end
+
+puts "Added #{Pokemon.count} Pokemon."
+
+def get_average_color(img)
   image = Magick::ImageList.new
-  urlimage = URI.open(pokemon_res["sprites"]["versions"]["generation-i"]["yellow"]["front_default"]) # Image Remote URL
+  urlimage = URI.open(img) # Image Remote URL
   image.from_blob(urlimage.read)
 
   total = 0
@@ -40,23 +63,4 @@ response["results"].each do |pokemon_ref|
   hlsa[2] = 0 unless hlsa[2] > 0
   average_color = Magick::Pixel.from_hsla(hlsa[0], hlsa[1], hlsa[2], hlsa[3])
   average_color = "##{(average_color.red.to_i / 256).to_s(16)}#{(average_color.green.to_i / 256).to_s(16)}#{(average_color.blue.to_i / 256).to_s(16)}"
-
-  puts "#{pokemon_res['name'].capitalize}: ##{pokemon_res['id']} | color: #{average_color}"
-
-  pokemon = Pokemon.new(
-    name:           pokemon_res["name"],
-    pokedex_number: pokemon_res["id"],
-    img:            "https://pokeres.bastionbot.org/images/pokemon/#{pokemon_res['id']}.png",
-    thumb:          pokemon_res["sprites"]["versions"]["generation-i"]["yellow"]["front_default"],
-    color:          average_color
-  )
-
-  if pokemon&.valid?
-    pokemon.save
-    # puts pokemon.inspect
-  else
-    puts "error with pokemon `#{pokemon_res['name']}`"
-  end
 end
-
-puts "Added #{Pokemon.count} Pokemon."
