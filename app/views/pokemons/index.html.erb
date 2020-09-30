@@ -1,2 +1,45 @@
-<h1>Pokemons#index</h1>
-<p>Find me in app/views/pokemons/index.html.erb</p>
+<h1 class="title">All Pokemon</h1>
+
+<style>
+  center-text{
+    text-align: center;
+  }
+
+  wrap-content{
+    width:50px
+  }
+</style>
+
+<div class="table-container">
+  <table class="table is-striped is-narrow is-hoverable is-fullwidth ">
+    <thead>
+      <td style="flex: 1">#</td>
+      <td style="flex: 2"></td>
+      <td style="flex: 3">Name</td>
+      <td style="flex: 20">Location</td>
+      <td style="flex: 1">Caught?</td>
+    </thead>
+    <tbody style="">
+      <% @pokemons.each do |pokemon| %>
+        <tr >
+          <td style="width: 25px">
+            <div style="line-height:48px; height:48px; vertical-align:middle;">
+             <%= "%03d" % pokemon.pokedex_number%>
+            </div>
+          </td>
+
+          <td style="width: 60px"><img width="48" height="48" src="<%= pokemon.thumb %>" alt="<%= pokemon.name %>"></td>
+
+          <td style="width: 100px">
+            <div style="line-height:48px; height:48px; vertical-align:middle;">
+              <%= link_to pokemon.name.capitalize, pokemon %>
+            </div>
+          </td>
+
+          <td style=""></td>
+          <td style="width: 25px"><input type="checkbox" name="caught" id="caught"></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
