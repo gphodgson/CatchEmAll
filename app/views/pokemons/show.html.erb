@@ -1,13 +1,14 @@
 <div>
-  <h1>
+  <div class="columns" style="border-bottom: 1px solid grey; border-top: 1px solid grey">
+
     <%if @prev_pokemon%>
-      <%= link_to "<--", @prev_pokemon %>
+      <div class="column"><span class="title"><%= link_to "⬅", @prev_pokemon %></span></div>
     <%end%>
-    <span class="title">#<%= @pokemon.pokedex_number %>: <%= @pokemon.name.capitalize %></span>
+    <div class="column" style="text-align: center"><span class="title">#<%= @pokemon.pokedex_number %>: <%= @pokemon.name.capitalize %></span></div>
     <%if @next_pokemon%>
-      <%= link_to "-->", @next_pokemon %>
+      <div class="column" style="text-align: right; color=white"><span class="title"><%= link_to "➡", @next_pokemon %></span></div>
     <%end%>
-  </h1>
+  </div>
 
   <div>
     <img width="300px" hight="300px" src="<%= @pokemon.img %>" alt="<%=  @pokemon.name %>">
