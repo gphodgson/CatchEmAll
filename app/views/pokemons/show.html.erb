@@ -10,7 +10,46 @@
     <%end%>
   </div>
 
-  <div>
-    <img width="300px" hight="300px" src="<%= @pokemon.img %>" alt="<%=  @pokemon.name %>">
+  <div class="columns">
+    <div class="column is-one-third" style="background-color:<%=@pokemon.color%>;">
+      <img width="300px" hight="300px" src="<%= @pokemon.img %>" alt="<%=  @pokemon.name %>" class="mt-5 mb-5" style="display:block; margin: auto">
+      <table class="table is-fullwidth" style="border: 2px solid black">
+        <thead>
+          <tr>
+            <td> <b> Base Stats</b></td>
+            <td></td>
+          </tr>
+        </thead>
+
+        <tr style="background-color:#EE5457;">
+          <td>HP</td>
+          <td class="stat-number"><%= @pokemon.stat.hp %></td>
+        </tr>
+        <tr style="background-color:#F5AC78;">
+          <td>Attack</td>
+          <td class="stat-number"><%= @pokemon.stat.attack %></td>
+        </tr>
+        <tr style="background-color:#FAE078;">
+          <td>Defense</td>
+          <td class="stat-number"><%= @pokemon.stat.defense %></td>
+        </tr>
+        <tr style="background-color:#9DB7F5;">
+          <td>Special Attack</td>
+          <td class="stat-number"><%= @pokemon.stat.special_attack %></td>
+        </tr>
+        <tr style="background-color:#A7DB8D;">
+          <td>Special Defense</td>
+          <td class="stat-number"><%= @pokemon.stat.special_defense %></td>
+        </tr>
+        <tr style="background-color:#F091B2;">
+          <td>Speed</td>
+          <td class="stat-number"><%= @pokemon.stat.speed %></td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="column">
+
+    </div>
   </div>
 </div>
