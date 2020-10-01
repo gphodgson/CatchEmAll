@@ -1,13 +1,19 @@
 <div>
   <div class="columns" style="background-color:<%=@pokemon.color%>;border-bottom: 1px solid grey; border-top: 1px solid grey">
 
-    <%if @prev_pokemon%>
-      <div class="column arrowBox"><span class="title"><%= link_to "⬅", @prev_pokemon, class: 'arrows' %></span></div>
-    <%end%>
+    <div class="column arrowBox">
+      <%if @prev_pokemon%>
+        <span class="title"><%= link_to "⬅", @prev_pokemon, class: 'arrows' %></span>
+      <%end%>
+    </div>
+
     <div class="column" style="text-align: center"><span style="color:white"class="title">#<%= @pokemon.pokedex_number %>: <%= @pokemon.name.capitalize %></span></div>
-    <%if @next_pokemon%>
-      <div class="column" style="text-align: right; color=white"><span class="title"><%= link_to "➡", @next_pokemon, class: 'arrows' %></span></div>
-    <%end%>
+
+    <div class="column" style="text-align: right; color=white">
+      <%if @next_pokemon%>
+        <span class="title"><%= link_to "➡", @next_pokemon, class: 'arrows' %></span>
+      <%end%>
+    </div>
   </div>
 
   <div class="columns">
