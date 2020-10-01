@@ -30,8 +30,8 @@ def get_average_color(img)
   average_color = "##{(average_color.red.to_i / 256).to_s(16)}#{(average_color.green.to_i / 256).to_s(16)}#{(average_color.blue.to_i / 256).to_s(16)}"
 end
 
-Pokemon.delete_all
 Stat.delete_all
+Pokemon.delete_all
 
 url = "https://pokeapi.co/api/v2/pokemon/?limit=151"
 uri = URI(url)
@@ -57,10 +57,27 @@ response["results"].each do |pokemon_ref|
 
   if pokemon&.valid?
     pokemon.save
-    # puts pokemon.inspect
+    stat = pokemon.stat = Stat.create(
+      hp:              pokemon_res["stats"][0]["base_stat"],
+      attack:          pokemon_res["stats"][1]["base_stat"],
+      defense:         pokemon_res["stats"][2]["base_stat"],
+      special_attack:  pokemon_res["stats"][3]["base_stat"],
+      special_defense: pokemon_res["stats"][4]["base_stat"],
+      speed:           pokemon_res["stats"][5]["base_stat"]
+    )
+
+    if stat&.valid?
+      stat.save
+      pokemon.stat = stat
+    else
+      puts "error with stat of `#{pokemon_newres['name']}`"
+      puts stat.inspect
+      pp stat.errors
+    end
   else
     puts "error with pokemon `#{pokemon_res['name']}`"
   end
 end
 
+puts "Added #{Stat.count} Stats."
 puts "Added #{Pokemon.count} Pokemon."

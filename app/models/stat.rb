@@ -15,11 +15,11 @@ class Stat < ApplicationRecord
   #
   # Assocations
   # --------------------
-  # Has one `Pokemon`
+  # belongs to one `Pokemon`
   #
   #======================
   belongs_to :pokemon
 
   validates :hp, :attack, :defense, :special_attack, :special_defense, :speed, presence: true
-  validates :hp, :attack, :defense, :special_attack, :special_defense, :speed, Numericality: {only_integer: true}
+  validates :hp, :attack, :defense, :special_attack, :special_defense, :speed, Numericality: { only_integer: true }
 end
