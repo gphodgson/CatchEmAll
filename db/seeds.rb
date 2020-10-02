@@ -49,13 +49,13 @@ response["results"].each do |pokemon_ref|
 
   average_color = get_average_color(pokemon_res["sprites"]["versions"]["generation-i"]["yellow"]["front_default"])
 
-  puts "#{pokemon_res['name'].capitalize}: ##{pokemon_res['id']} | color: #{average_color}"
+  puts "#{pokemon_res['name'].capitalize}: ##{pokemon_res['id']}     | color: #{average_color}"
 
   pokemon = Pokemon.new(
     name:           pokemon_res["name"],
     alt_name:       "n/a",
     pokedex_number: pokemon_res["id"],
-    description:    pokemon_species["flavor_text_entries"][0]["flavor_text"],
+    description:    pokemon_species["flavor_text_entries"][0]["flavor_text"].delete("\f"),
     img:            "https://pokeres.bastionbot.org/images/pokemon/#{pokemon_res['id']}.png",
     thumb:          pokemon_res["sprites"]["versions"]["generation-i"]["yellow"]["front_default"],
     color:          average_color,
