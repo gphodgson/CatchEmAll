@@ -59,7 +59,7 @@ response["results"].each do |pokemon_ref|
     img:            "https://pokeres.bastionbot.org/images/pokemon/#{pokemon_res['id']}.png",
     thumb:          pokemon_res["sprites"]["versions"]["generation-i"]["yellow"]["front_default"],
     color:          average_color,
-    weight:         pokemon_res["weight"]
+    weight:         pokemon_res["weight"].to_i / 10
   )
 
   if pokemon&.valid?
