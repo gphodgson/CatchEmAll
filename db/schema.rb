@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_01_173625) do
+ActiveRecord::Schema.define(version: 2020_10_01_174234) do
 
   create_table "pokemons", force: :cascade do |t|
     t.string "name"
@@ -21,6 +21,7 @@ ActiveRecord::Schema.define(version: 2020_10_01_173625) do
     t.text "img"
     t.string "color"
     t.text "alt_name"
+    t.integer "weight"
   end
 
   create_table "stats", force: :cascade do |t|
