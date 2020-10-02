@@ -43,17 +43,23 @@ response["results"].each do |pokemon_ref|
 
   pokemon_res = JSON.parse(Net::HTTP.get(uri))
 
+  species_url = "https://pokeapi.co/api/v2/pokemon-species/#{pokemon_res['id']}/"
+  species_uri = URI(species_url)
+  pokemon_species = JSON.parse(Net::HTTP.get(species_uri))
+
   average_color = get_average_color(pokemon_res["sprites"]["versions"]["generation-i"]["yellow"]["front_default"])
 
   puts "#{pokemon_res['name'].capitalize}: ##{pokemon_res['id']} | color: #{average_color}"
 
   pokemon = Pokemon.new(
     name:           pokemon_res["name"],
-    alt_name:       "",
+    alt_name:       "n/a",
     pokedex_number: pokemon_res["id"],
+    description:    pokemon_species["flavor_text_entries"][0]["flavor_text"],
     img:            "https://pokeres.bastionbot.org/images/pokemon/#{pokemon_res['id']}.png",
     thumb:          pokemon_res["sprites"]["versions"]["generation-i"]["yellow"]["front_default"],
-    color:          average_color
+    color:          average_color,
+    weight:         pokemon_res["weight"]
   )
 
   if pokemon&.valid?
@@ -77,6 +83,7 @@ response["results"].each do |pokemon_ref|
     end
   else
     puts "error with pokemon `#{pokemon_res['name']}`"
+    pp pokemon.errors
   end
 end
 
