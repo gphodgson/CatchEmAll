@@ -10,7 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_02_200523) do
+ActiveRecord::Schema.define(version: 2020_10_06_213152) do
+
+  create_table "locations", force: :cascade do |t|
+    t.string "name"
+    t.text "img"
+    t.decimal "walk_encounter_rate"
+    t.decimal "surf_encounter_rate"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
 
   create_table "pokemons", force: :cascade do |t|
     t.string "name"

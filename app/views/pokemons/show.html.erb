@@ -1,5 +1,5 @@
 <div>
-  <div class="columns" style="background-color:<%=@pokemon.color%>;border-bottom: 1px solid grey; border-top: 1px solid grey">
+  <div class="columns title-bar" style="background-color:<%=@pokemon.color%>">
 
     <div class="column arrowBox">
       <%if @prev_pokemon%>
@@ -19,6 +19,12 @@
   <div class="columns">
     <div class="column is-one-third" style="background-color:<%=@pokemon.color%>;">
       <img width="300px" hight="300px" src="<%= @pokemon.img %>" alt="<%=  @pokemon.name %>" class="mt-5 mb-5" style="display:block; margin: auto">
+
+      <div class="columns mb-5" style="width:300px; margin:auto">
+        <div class="column extra" style="margin-right: 10px">Weight: <%=@pokemon.weight%>kg</div>
+        <div class="column extra">Type: </div>
+      </div>
+
       <table class="table is-fullwidth" style="border: 2px solid black">
         <thead>
           <tr>
@@ -54,8 +60,11 @@
       </table>
     </div>
 
-    <div class="column">
+    <div class="column" style="padding:0">
+      <p class="title is-4 p-3 title-bar" style="text-align:center; background-color:<%=@pokemon.color%>; border-top: 0px"> Pokedex Entry</p>
+      <p style="text-align:center" class="mb-5"><%=@pokemon.description%></p>
 
+      <p class="title is-4 p-3 title-bar" style="text-align:center; background-color:<%=@pokemon.color%>; border-top: 0px"> Locations</p>
     </div>
   </div>
 </div>
