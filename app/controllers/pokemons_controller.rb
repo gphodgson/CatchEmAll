@@ -10,6 +10,6 @@ class PokemonsController < ApplicationController
   end
 
   def search
-    @pokemons = Pokemon.where("name LIKE :query", query: "%#{params[:search_term]}%")
+    @pokemons = Pokemon.where("name LIKE :query", query: "#{params[:search_term]}%")
   end
 end
