@@ -66,23 +66,27 @@
 
       <p class="title is-4 p-3 title-bar" style="text-align:center; background-color:<%=@pokemon.color%>; border-top: 0px"> Locations</p>
 
-      <div class="table-container p-5">
-        <table class="table is-striped is-narrow is-hoverable is-fullwidth ">
-          <thead>
-            <td style="flex: 1">Name</td>
-            <td>Method</td>
-            <td>Encounter Rate</td>
-          <tbody style="">
-            <% @pokemon.encounters.each do |encounter| %>
-              <tr >
-                <td><%=link_to encounter.location.name.capitalize, encounter.location%></td>
-                <td><%=encounter.method%></td>
-                <td><%=encounter.chance%>%</td>
-              </tr>
-            <% end %>
-          </tbody>
-        </table>
-      </div>
+      <%if @pokemon.encounters.count <= 0%>
+        <p style="text-align:center">This pokemon cannot be found in the wild.</p>
+      <%else%>
+        <div class="table-container p-5">
+          <table class="table is-striped is-narrow is-hoverable is-fullwidth ">
+            <thead>
+              <td style="flex: 1">Name</td>
+              <td>Method</td>
+              <td>Encounter Rate</td>
+            <tbody style="">
+              <% @pokemon.encounters.each do |encounter| %>
+                <tr >
+                  <td><%=link_to encounter.location.name.capitalize, encounter.location%></td>
+                  <td><%=encounter.method%></td>
+                  <td><%=encounter.chance%>%</td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      <%end%>
 
     </div>
   </div>

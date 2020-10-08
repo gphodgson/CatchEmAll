@@ -81,7 +81,7 @@ response["results"].each do |pokemon_ref|
     name:           pokemon_res["name"],
     alt_name:       "n/a",
     pokedex_number: pokemon_res["id"],
-    description:    pokemon_species["flavor_text_entries"][0]["flavor_text"].delete("\f"),
+    description:    pokemon_species["flavor_text_entries"][0]["flavor_text"].gsub!("\f", " "),
     img:            "https://pokeres.bastionbot.org/images/pokemon/#{pokemon_res['id']}.png",
     thumb:          pokemon_res["sprites"]["versions"]["generation-i"]["yellow"]["front_default"],
     color:          average_color,
@@ -113,24 +113,24 @@ response["results"].each do |pokemon_ref|
 
         location = Location.find_by(name: location_res["location"]["name"].gsub!("-", " "))
 
-        if !location.nil?
-          encounter_res["version_details"].each do |encounter_versions|
-            # pp encounter_versions
-            encounter = pokemon.encounters.create(
-              location: location,
-              chance:   encounter_versions["encounter_details"][0]["chance"],
-              method:   encounter_versions["encounter_details"][0]["method"]["name"]
-            )
+        next if location.nil?
 
-            if encounter&.valid?
-              puts "Added encounter at `#{location.name}`"
-            else
-              puts "Error with encounter at `#{location.name}`"
-              pp encounter.errors.messages
-            end
+        encounter_res["version_details"].each do |encounter_versions|
+          # pp encounter_versions
+          next unless encounter_versions["version"]["name"] == "yellow"
+
+          encounter = pokemon.encounters.create(
+            location: location,
+            chance:   encounter_versions["encounter_details"][0]["chance"],
+            method:   encounter_versions["encounter_details"][0]["method"]["name"]
+          )
+
+          if encounter&.valid?
+            puts "Added encounter at `#{location.name}`"
+          else
+            puts "Error with encounter at `#{location.name}`"
+            pp encounter.errors.messages
           end
-        else
-          puts "location `#{location_res['location']['name']}` not suppported."
         end
       end
     else
