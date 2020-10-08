@@ -32,6 +32,24 @@ end
 
 Stat.delete_all
 Pokemon.delete_all
+Location.delete_all
+
+url = "https://pokeapi.co/api/v2/region/1/"
+uri = URI(url)
+response = JSON.parse(Net::HTTP.get(uri))
+
+response["locations"].each do |location_res|
+  location = Location.create(
+    name: location_res["name"].gsub!("-", " ")
+  )
+
+  if location&.valid?
+    puts "Location '#{location.name}' Added"
+  else
+    puts "Error encountered with location '#{location_res['name']}'"
+    pp location.errors.messages
+  end
+end
 
 url = "https://pokeapi.co/api/v2/pokemon/?limit=151"
 uri = URI(url)
