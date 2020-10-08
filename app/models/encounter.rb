@@ -19,6 +19,6 @@ class Encounter < ApplicationRecord
   validates :chance, :method, presence: true
   validates :chance, numericality: true
 
-  belongs_to :pokemons
-  belongs_to :locations
+  belongs_to :pokemon
+  belongs_to :location
 end

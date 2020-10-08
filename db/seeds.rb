@@ -31,9 +31,9 @@ def get_average_color(img)
 end
 
 Stat.delete_all
+Encounter.delete_all
 Pokemon.delete_all
 Location.delete_all
-Encounter.delete_all
 
 url = "https://pokeapi.co/api/v2/region/1/"
 uri = URI(url)
@@ -101,7 +101,38 @@ response["results"].each do |pokemon_ref|
 
     if stat&.valid?
       stat.save
-      pokemon.stat = stat
+
+      encounters_url = "https://pokeapi.co/api/v2/pokemon/#{pokemon_res['id']}/encounters"
+      encounters_uri = URI(encounters_url)
+      encounters = JSON.parse(Net::HTTP.get(encounters_uri))
+
+      encounters.each do |encounter_res|
+        location_url = encounter_res["location_area"]["url"]
+        location_uri = URI(location_url)
+        location_res = JSON.parse(Net::HTTP.get(location_uri))
+
+        location = Location.find_by(name: location_res["location"]["name"].gsub!("-", " "))
+
+        if !location.nil?
+          encounter_res["version_details"].each do |encounter_versions|
+            # pp encounter_versions
+            encounter = pokemon.encounters.create(
+              location: location,
+              chance:   encounter_versions["encounter_details"][0]["chance"],
+              method:   encounter_versions["encounter_details"][0]["method"]["name"]
+            )
+
+            if encounter&.valid?
+              puts "Added encounter at `#{location.name}`"
+            else
+              puts "Error with encounter at `#{location.name}`"
+              pp encounter.errors.messages
+            end
+          end
+        else
+          puts "location `#{location_res['location']['name']}` not suppported."
+        end
+      end
     else
       puts "error with stat of `#{pokemon_res['name']}`"
       puts stat.inspect
@@ -116,3 +147,4 @@ end
 puts "Added #{Stat.count} Stats."
 puts "Added #{Pokemon.count} Pokemon."
 puts "Added #{Location.count} Locations"
+puts "Added #{Encounter.count} Encounters"

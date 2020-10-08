@@ -13,14 +13,14 @@
 ActiveRecord::Schema.define(version: 2020_10_08_035631) do
 
   create_table "encounters", force: :cascade do |t|
-    t.integer "pokemons_id", null: false
-    t.integer "locations_id", null: false
+    t.integer "pokemon_id", null: false
+    t.integer "location_id", null: false
     t.decimal "chance"
     t.string "method"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["locations_id"], name: "index_encounters_on_locations_id"
-    t.index ["pokemons_id"], name: "index_encounters_on_pokemons_id"
+    t.index ["location_id"], name: "index_encounters_on_location_id"
+    t.index ["pokemon_id"], name: "index_encounters_on_pokemon_id"
   end
 
   create_table "locations", force: :cascade do |t|
@@ -56,7 +56,7 @@ ActiveRecord::Schema.define(version: 2020_10_08_035631) do
     t.index ["pokemon_id"], name: "index_stats_on_pokemon_id"
   end
 
-  add_foreign_key "encounters", "locations", column: "locations_id"
-  add_foreign_key "encounters", "pokemons", column: "pokemons_id"
+  add_foreign_key "encounters", "locations"
+  add_foreign_key "encounters", "pokemons"
   add_foreign_key "stats", "pokemons"
 end
