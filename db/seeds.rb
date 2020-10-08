@@ -37,17 +37,24 @@ Location.delete_all
 url = "https://pokeapi.co/api/v2/region/1/"
 uri = URI(url)
 response = JSON.parse(Net::HTTP.get(uri))
+file_names = Dir.entries(Rails.root.join("app/assets/images/locations/"))
 
 response["locations"].each do |location_res|
-  location = Location.create(
-    name: location_res["name"].gsub!("-", " ")
-  )
+  name = location_res["name"].gsub!("-", " ")
+  img_name = name.dup
+  img_name = img_name.gsub!(" ", "") + ".png"
+
+  if file_names.include?(img_name)
+    location = Location.create(
+      name: name,
+      img:  img_name
+    )
+  end
 
   if location&.valid?
-    puts "Location '#{location.name}' Added"
+    puts "Location '#{location.name}' Added. Image: #{location.img}"
   else
     puts "Error encountered with location '#{location_res['name']}'"
-    pp location.errors.messages
   end
 end
 
