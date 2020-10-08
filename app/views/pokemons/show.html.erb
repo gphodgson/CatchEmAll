@@ -72,12 +72,14 @@
         <div class="table-container p-5">
           <table class="table is-striped is-narrow is-hoverable is-fullwidth ">
             <thead>
+              <td>Game</td>
               <td style="flex: 1">Name</td>
               <td>Method</td>
               <td>Encounter Rate</td>
             <tbody style="">
               <% @pokemon.encounters.each do |encounter| %>
                 <tr >
+                  <td><%=encounter.game%></td>
                   <td><%=link_to encounter.location.name.capitalize, encounter.location%></td>
                   <td><%=encounter.method%></td>
                   <td><%=encounter.chance%>%</td>

@@ -74,14 +74,18 @@ response["results"].each do |pokemon_ref|
   pokemon_species = JSON.parse(Net::HTTP.get(species_uri))
 
   average_color = get_average_color(pokemon_res["sprites"]["versions"]["generation-i"]["yellow"]["front_default"])
-
+  description = if pokemon_species["flavor_text_entries"][0]["flavor_text"].include?("\f")
+                  pokemon_species["flavor_text_entries"][0]["flavor_text"].gsub!("\f", " ")
+                else
+                  pokemon_species["flavor_text_entries"][0]["flavor_text"]
+                end
   puts "#{pokemon_res['name'].capitalize}: ##{pokemon_res['id']}     | color: #{average_color}"
 
   pokemon = Pokemon.new(
     name:           pokemon_res["name"],
     alt_name:       "n/a",
     pokedex_number: pokemon_res["id"],
-    description:    pokemon_species["flavor_text_entries"][0]["flavor_text"].gsub!("\f", " "),
+    description:    description,
     img:            "https://pokeres.bastionbot.org/images/pokemon/#{pokemon_res['id']}.png",
     thumb:          pokemon_res["sprites"]["versions"]["generation-i"]["yellow"]["front_default"],
     color:          average_color,
@@ -116,13 +120,14 @@ response["results"].each do |pokemon_ref|
         next if location.nil?
 
         encounter_res["version_details"].each do |encounter_versions|
-          version = encounter_versions["versions"]["name"]
-          next unless version == "yellow"
+          version = encounter_versions["version"]["name"]
+          next unless (version == "yellow") || (version == "blue") || (version == "red")
 
           encounter = pokemon.encounters.create(
             location: location,
             chance:   encounter_versions["encounter_details"][0]["chance"],
-            method:   encounter_versions["encounter_details"][0]["method"]["name"]
+            method:   encounter_versions["encounter_details"][0]["method"]["name"],
+            game:     version
           )
 
           if encounter&.valid?
