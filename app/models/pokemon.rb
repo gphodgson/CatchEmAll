@@ -17,10 +17,14 @@ class Pokemon < ApplicationRecord
   # Assocations
   # --------------------
   # Has one `Stat`
+  # Has many `Encounters`
+  # Connected to `Locations` via `Encounters`
   #
   #======================
 
   has_one :stat
+  has_many :encounters
+  has_many :locations, through: :encounters
 
   validates :name, :alt_name, :pokedex_number, :description, :img, :thumb, presence: true
   validates :pokedex_number, numericality: { only_integer: true }

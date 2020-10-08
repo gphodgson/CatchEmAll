@@ -33,6 +33,7 @@ end
 Stat.delete_all
 Pokemon.delete_all
 Location.delete_all
+Encounter.delete_all
 
 url = "https://pokeapi.co/api/v2/region/1/"
 uri = URI(url)
