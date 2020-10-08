@@ -116,8 +116,8 @@ response["results"].each do |pokemon_ref|
         next if location.nil?
 
         encounter_res["version_details"].each do |encounter_versions|
-          # pp encounter_versions
-          next unless encounter_versions["version"]["name"] == "yellow"
+          version = encounter_versions["versions"]["name"]
+          next unless version == "yellow"
 
           encounter = pokemon.encounters.create(
             location: location,
