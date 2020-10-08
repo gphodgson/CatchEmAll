@@ -1,2 +1,6 @@
-<h1>Locations#show</h1>
-<p>Find me in app/views/locations/show.html.erb</p>
+<h1 class="title is-3"><%=@location.name.capitalize%></h1>
+<%if !@location.img.nil?%>
+
+  <img src="<%=@location.img%>" alt="<%=@location.name%>">
+
+<%end%>
