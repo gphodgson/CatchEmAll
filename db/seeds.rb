@@ -77,7 +77,7 @@ response["results"].each do |pokemon_ref|
       stat.save
       pokemon.stat = stat
     else
-      puts "error with stat of `#{pokemon_newres['name']}`"
+      puts "error with stat of `#{pokemon_res['name']}`"
       puts stat.inspect
       pp stat.errors
     end
@@ -89,3 +89,4 @@ end
 
 puts "Added #{Stat.count} Stats."
 puts "Added #{Pokemon.count} Pokemon."
+puts "Added #{Location.count} Locations"
