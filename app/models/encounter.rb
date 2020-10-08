@@ -7,6 +7,7 @@
 # --------------------------
 # Chance  | String  | Required
 # Method  | Text    | Required
+# Game    | String  | Required, Within (`red`, `blue`, `yellow`)
 #
 # Associations
 # --------------------
@@ -16,7 +17,7 @@
 #======================
 
 class Encounter < ApplicationRecord
-  validates :chance, :method, presence: true
+  validates :chance, :method, :game, presence: true
   validates :chance, numericality: true
 
   belongs_to :pokemon
