@@ -66,14 +66,18 @@
 
       <p class="title is-4 p-3 title-bar" style="text-align:center; background-color:<%=@pokemon.color%>; border-top: 0px"> Locations</p>
 
-      <div class="table-container">
+      <div class="table-container p-5">
         <table class="table is-striped is-narrow is-hoverable is-fullwidth ">
           <thead>
             <td style="flex: 1">Name</td>
+            <td>Method</td>
+            <td>Encounter Rate</td>
           <tbody style="">
-            <% @locations.each do |location| %>
+            <% @pokemon.encounters.each do |encounter| %>
               <tr >
-                <td><%=link_to location.name.capitalize, location%></td>
+                <td><%=link_to encounter.location.name.capitalize, encounter.location%></td>
+                <td><%=encounter.method%></td>
+                <td><%=encounter.chance%>%</td>
               </tr>
             <% end %>
           </tbody>
