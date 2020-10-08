@@ -27,7 +27,7 @@ def get_average_color(img)
 
   hlsa[2] = 0 unless hlsa[2] > 0
   average_color = Magick::Pixel.from_hsla(hlsa[0], hlsa[1], hlsa[2], hlsa[3])
-  average_color = "##{(average_color.red.to_i / 256).to_s(16)}#{(average_color.green.to_i / 256).to_s(16)}#{(average_color.blue.to_i / 256).to_s(16)}"
+  "##{(average_color.red.to_i / 256).to_s(16)}#{(average_color.green.to_i / 256).to_s(16)}#{(average_color.blue.to_i / 256).to_s(16)}"
 end
 
 Stat.delete_all
