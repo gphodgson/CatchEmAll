@@ -4,3 +4,34 @@
   <%=image_tag "locations/#{@location.img}"%>
 
 <%end%>
+
+<h1 class="title is-4 mt-5">Encounters:</h1>
+<%if @location.encounters.count <= 0%>
+        <p style="text-align:center">This pokemon cannot be found in the wild.</p>
+      <%else%>
+        <div class="table-container p-5">
+          <table class="table is-striped is-narrow is-hoverable is-fullwidth ">
+            <thead>
+              <td>Game</td>
+              <td style="flex: 1">Pokemon</td>
+              <td>Method</td>
+              <td>Encounter Rate</td>
+            <tbody style="">
+              <% @location.encounters.order("game DESC").each do |encounter| %>
+                <tr >
+                  <%if encounter.game == "red"%>
+                    <td style="background-color:#ff0000"><%=encounter.game%></td>
+                  <%elsif encounter.game == "blue"%>
+                    <td style="background-color:#0000ff"><%=encounter.game%></td>
+                  <%elsif encounter.game == "yellow"%>
+                    <td style="background-color:#fff200"><%=encounter.game%></td>
+                  <%end%>
+                  <td><%=link_to encounter.pokemon.name.capitalize, encounter.pokemon%></td>
+                  <td><%=encounter.method%></td>
+                  <td><%=encounter.chance%>%</td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      <%end%>
