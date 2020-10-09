@@ -7,9 +7,9 @@
       <%end%>
     </div>
 
-    <div class="column" style="text-align: center"><span style="color:white"class="title">#<%= @pokemon.pokedex_number %>: <%= @pokemon.name.capitalize %></span></div>
+    <div class="column" style="text-align: center"><span style="color:white" class="title">#<%= @pokemon.pokedex_number %>: <%= @pokemon.name.capitalize %></span></div>
 
-    <div class="column" style="text-align: right; color=white">
+    <div class="column" style="text-align: right;">
       <%if @next_pokemon%>
         <span class="title"><%= link_to "➡", @next_pokemon, class: 'arrows' %></span>
       <%end%>
@@ -18,7 +18,7 @@
 
   <div class="columns">
     <div class="column is-one-third" style="background-color:<%=@pokemon.color%>;">
-      <img width="300px" hight="300px" src="<%= @pokemon.img %>" alt="<%=  @pokemon.name %>" class="mt-5 mb-5" style="display:block; margin: auto">
+      <img width="300" height="300" src="<%= @pokemon.img %>" alt="<%=  @pokemon.name %>" class="mt-5 mb-5" style="display:block; margin: auto">
 
       <div class="columns mb-5" style="width:300px; margin:auto">
         <div class="column extra" style="margin-right: 10px">Weight: <%=@pokemon.weight%>kg</div>
@@ -77,9 +77,15 @@
               <td>Method</td>
               <td>Encounter Rate</td>
             <tbody style="">
-              <% @pokemon.encounters.each do |encounter| %>
+              <% @pokemon.encounters.order("location_id DESC").each do |encounter| %>
                 <tr >
-                  <td><%=encounter.game%></td>
+                  <%if encounter.game == "red"%>
+                    <td style="background-color:#ff0000"><%=encounter.game%></td>
+                  <%elsif encounter.game == "blue"%>
+                    <td style="background-color:#0000ff"><%=encounter.game%></td>
+                  <%elsif encounter.game == "yellow"%>
+                    <td style="background-color:#fff200"><%=encounter.game%></td>
+                  <%end%>
                   <td><%=link_to encounter.location.name.capitalize, encounter.location%></td>
                   <td><%=encounter.method%></td>
                   <td><%=encounter.chance%>%</td>
