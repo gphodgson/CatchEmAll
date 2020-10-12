@@ -77,7 +77,7 @@
               <td>Method</td>
               <td>Encounter Rate</td>
             <tbody style="">
-              <% @pokemon.encounters.order("location_id DESC").each do |encounter| %>
+              <% @pokemon.encounters.order("game DESC").each do |encounter| %>
                 <tr >
                   <%if encounter.game == "red"%>
                     <td style="background-color:#ff0000"><%=encounter.game%></td>
