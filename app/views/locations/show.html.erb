@@ -1,7 +1,9 @@
 <h1 class="title is-3"><%=@location.name.capitalize%></h1>
 <%begin%>
 
-  <%=image_tag "locations/#{@location.img}"%>
+  <%if !@location.img.nil?%>
+    <%=image_tag "locations/#{@location.img}"%>
+  <%end%>
 
 <%end%>
 

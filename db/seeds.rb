@@ -35,53 +35,27 @@ Encounter.delete_all
 Pokemon.delete_all
 Location.delete_all
 
-url = "https://pokeapi.co/api/v2/region/1/"
-uri = URI(url)
-response = JSON.parse(Net::HTTP.get(uri))
-file_names = Dir.entries(Rails.root.join("app/assets/images/locations/"))
+pokemons_url = "https://pokeapi.co/api/v2/pokemon/?limit=151"
+pokemons_uri = URI(pokemons_url)
+pokemons_res = JSON.parse(Net::HTTP.get(pokemons_uri))
 
-response["locations"].each do |location_res|
-  name = location_res["name"].gsub!("-", " ")
-  img_name = name.dup
-  img_name = img_name.gsub!(" ", "") + ".png"
-
-  if file_names.include?(img_name)
-    location = Location.create(
-      name: name,
-      img:  img_name
-    )
-  end
-
-  if location&.valid?
-    puts "Location '#{location.name}' Added. Image: #{location.img}"
-  else
-    puts "Error encountered with location '#{location_res['name']}'"
-  end
-end
-
-url = "https://pokeapi.co/api/v2/pokemon/?limit=151"
-uri = URI(url)
-response = JSON.parse(Net::HTTP.get(uri))
-
-response["results"].each do |pokemon_ref|
-  url = pokemon_ref["url"]
-  uri = URI(url)
-
-  pokemon_res = JSON.parse(Net::HTTP.get(uri))
+pokemons_res["results"].each do |pokemon_ref|
+  pokemon_url = pokemon_ref["url"]
+  pokemon_uri = URI(pokemon_url)
+  pokemon_res = JSON.parse(Net::HTTP.get(pokemon_uri))
 
   species_url = "https://pokeapi.co/api/v2/pokemon-species/#{pokemon_res['id']}/"
   species_uri = URI(species_url)
-  pokemon_species = JSON.parse(Net::HTTP.get(species_uri))
+  species_res = JSON.parse(Net::HTTP.get(species_uri))
 
   average_color = get_average_color(pokemon_res["sprites"]["versions"]["generation-i"]["yellow"]["front_default"])
-  description = if pokemon_species["flavor_text_entries"][0]["flavor_text"].include?("\f")
-                  pokemon_species["flavor_text_entries"][0]["flavor_text"].gsub!("\f", " ")
+  description = if species_res["flavor_text_entries"][0]["flavor_text"].include?("\f")
+                  species_res["flavor_text_entries"][0]["flavor_text"].gsub!("\f", " ")
                 else
-                  pokemon_species["flavor_text_entries"][0]["flavor_text"]
+                  species_res["flavor_text_entries"][0]["flavor_text"]
                 end
-  puts "#{pokemon_res['name'].capitalize}: ##{pokemon_res['id']}     | color: #{average_color}"
 
-  pokemon = Pokemon.new(
+  pokemon = Pokemon.create(
     name:           pokemon_res["name"],
     alt_name:       "n/a",
     pokedex_number: pokemon_res["id"],
@@ -93,7 +67,8 @@ response["results"].each do |pokemon_ref|
   )
 
   if pokemon&.valid?
-    pokemon.save
+    puts "Added pokemon #{pokemon.name}"
+
     stat = pokemon.stat = Stat.create(
       hp:              pokemon_res["stats"][0]["base_stat"],
       attack:          pokemon_res["stats"][1]["base_stat"],
@@ -104,24 +79,18 @@ response["results"].each do |pokemon_ref|
     )
 
     if stat&.valid?
-      stat.save
+      puts "Added stats for '#{pokemon.name}'"
 
       encounters_url = "https://pokeapi.co/api/v2/pokemon/#{pokemon_res['id']}/encounters"
       encounters_uri = URI(encounters_url)
       encounters = JSON.parse(Net::HTTP.get(encounters_uri))
 
       encounters.each do |encounter_res|
-        location_url = encounter_res["location_area"]["url"]
-        location_uri = URI(location_url)
-        location_res = JSON.parse(Net::HTTP.get(location_uri))
-
-        location = Location.find_by(name: location_res["location"]["name"].gsub!("-", " "))
-
-        next if location.nil?
-
         encounter_res["version_details"].each do |encounter_versions|
           version = encounter_versions["version"]["name"]
           next unless (version == "yellow") || (version == "blue") || (version == "red")
+
+          location = Location.find_or_create_by(name: encounter_res["location_area"]["name"].dup.gsub!("-", " "))
 
           encounter = pokemon.encounters.create(
             location: location,
@@ -139,13 +108,11 @@ response["results"].each do |pokemon_ref|
         end
       end
     else
-      puts "error with stat of `#{pokemon_res['name']}`"
-      puts stat.inspect
-      pp stat.errors
+      puts puts "Error with pokemon stats: #{pokemon_res['name']}"
     end
   else
-    puts "error with pokemon `#{pokemon_res['name']}`"
-    pp pokemon.errors
+    puts "Error with pokemon: #{pokemon_res['name']}"
+    pp pokemon.errors.messages
   end
 end
 
