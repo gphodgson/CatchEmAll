@@ -1,0 +1,37 @@
+<h1 class="title is-3">About the data</h1>
+
+<p>This project mainly pulls from community managed <b>PokeApi</b>. I am pulling from 3 major endpoints:</p>
+<ul class='content ml-5 mt-2'>
+  <li>  - <b>Pokemons</b></li>
+  <li>  - <b>Pokemons Species</b></li>
+  <li>  - <b>Encounters</b></li>
+</ul>
+<p>I am also pulling some pokemon pictures from another API, this is the <b>PokeRes</b> API.</p>
+
+<p>These endpoints fill 6 DB Tables:</p>
+<ul class='content ml-5 mt-2'>
+  <li>  - <b>Pokemons</b></li>
+  <li>  - <b>Stats</b></li>
+  <li>  - <b>Locations</b></li>
+  <li>  - <b>Encounters</b></li>
+  <li>  - <b>Types</b></li>
+  <li>  - <b>Pokemon Types</b></li>
+</ul>
+<p>My location images are all downloaded from <b>Bulbapedia</b> and stored locally.</p>
+<p>Most of my data is coming from the <b>Pokemon</b> endpoint, and all data stems from it. With this one call, I can get a link to encounters and species.
+    The <b>Pokemon</b> includes all data for pokemon, other than description and full image, as well as the stats for the pokemon. I seperated the Stats and Pokemon tables as
+    they seem different of enough topics to seperate, as well as stats would clutter the Pokemon table.
+</p>
+<p>From the pokemon table, I was able to aquire the <b>Pokemon Species</b>. This is a relatively small contribution, only providing the description for the pokemon,
+    but ultimatly necessary. For the full image I used to <b>PokeRes</b> API.
+</p>
+
+<p>Also from the Pokemon call, I was able to get its Types. From here I created a  "joiner table" in <b>Pokemon Types</b>, this connected the <b>Pokemon</b> and <b>Types</b>
+    tables in a many-to-many relationship.
+</p>
+
+<p>Finally, I was able to get the pokemons <b>Encounters</b>. I originally created the <b>Encounters</b> table to connect <b>Locations</b> and <b>Pokemon</b>
+    in a many-to-many relationship, but it now holds other data as well. <b>Location</b> data was held in the <b>Encounter</b> call.
+</p>
+<h1 class="title is-4 mt-5">ERD Diagram</h1>
+<%=image_tag "about/erd.png"%>
