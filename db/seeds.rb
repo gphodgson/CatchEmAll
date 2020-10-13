@@ -31,6 +31,7 @@ def get_average_color(img)
 end
 
 Stat.delete_all
+Type.delete_all
 Encounter.delete_all
 Pokemon.delete_all
 Location.delete_all
@@ -81,6 +82,15 @@ pokemons_res["results"].each do |pokemon_ref|
     if stat&.valid?
       puts "Added stats for '#{pokemon.name}'"
 
+      pokemon_res["types"].each do |type_res|
+        type = Type.find_or_create_by(name: type_res["type"]["name"])
+        if type&.valid?
+          puts "Added Type: `#{type.name}`"
+        else
+          puts "Error with type `#{type_res['type']['name']}`"
+        end
+      end
+
       encounters_url = "https://pokeapi.co/api/v2/pokemon/#{pokemon_res['id']}/encounters"
       encounters_uri = URI(encounters_url)
       encounters = JSON.parse(Net::HTTP.get(encounters_uri))
@@ -120,3 +130,4 @@ puts "Added #{Stat.count} Stats."
 puts "Added #{Pokemon.count} Pokemon."
 puts "Added #{Location.count} Locations"
 puts "Added #{Encounter.count} Encounters"
+puts "Added #{Type.count} Types"

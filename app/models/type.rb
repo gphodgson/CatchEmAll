@@ -5,13 +5,13 @@
 #
 # Feilds
 # --------------------------
-# Name:           | String  | Required, Uniqueness
+# Name:   | String  | Required, Uniqueness
 #
 # Assocations
 # --------------------
 #
 #======================
 class Type < ApplicationRecord
-  validates :names, presence: true
-  validates :names, uniqueness: true
+  validates :name, presence: true
+  validates :name, uniqueness: true
 end
