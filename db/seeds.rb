@@ -32,6 +32,7 @@ end
 
 Stat.delete_all
 Type.delete_all
+PokemonType.delete_all
 Encounter.delete_all
 Pokemon.delete_all
 Location.delete_all
@@ -85,7 +86,10 @@ pokemons_res["results"].each do |pokemon_ref|
       pokemon_res["types"].each do |type_res|
         type = Type.find_or_create_by(name: type_res["type"]["name"])
         if type&.valid?
-          puts "Added Type: `#{type.name}`"
+          pokemon_type = pokemon.pokemon_types.create(
+            type: type
+          )
+          puts "added type `#{type.name}` to pokemon `#{pokemon.name}`" if pokemon_type&.valid?
         else
           puts "Error with type `#{type_res['type']['name']}`"
         end
@@ -131,3 +135,4 @@ puts "Added #{Pokemon.count} Pokemon."
 puts "Added #{Location.count} Locations"
 puts "Added #{Encounter.count} Encounters"
 puts "Added #{Type.count} Types"
+puts "Added #{PokemonType.count} Pokemon Types"
