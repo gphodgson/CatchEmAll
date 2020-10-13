@@ -14,7 +14,23 @@
   <body>
     <section class="section">
       <div class="container">
-        <h1 class="title is-1"><a href="/pokemons">Catch em' All!</a></h1>
+        <div class="columns is-fullwidth">
+          <div class="column is-one-third">
+            <h1 class="title is-1"><a href="/">Catch em' All!</a></h1>
+          </div>
+          <div class="column">
+            <h1 class="title is-3" style="text-align:center"><%=link_to "Pokemon", pokemons_path%></h1>
+          </div>
+          <div class="column">
+            <h1 class="title is-3" style="text-align:center"><%=link_to "Locations", locations_path%></h1>
+          </div>
+          <div class="column">
+            <h1 class="title is-3" style="text-align:center"><%=link_to "Types", types_path%></h1>
+          </div>
+          <div class="column">
+            <h1 class="title is-3" style="text-align:center"><%=link_to "About", about_index_path%></h1>
+          </div>
+        </div>
         <%= yield %>
       <footer style="border-top: 1px solid grey; text-align:center">Created By: Geoff Hodgson | Sept 2020 | <a href="https://github.com/payne1134/CatchEmAll">Github</a></footer>
       </div>
