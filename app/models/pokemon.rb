@@ -32,4 +32,11 @@ class Pokemon < ApplicationRecord
 
   validates :name, :alt_name, :pokedex_number, :description, :img, :thumb, presence: true
   validates :pokedex_number, numericality: { only_integer: true }
+
+  def types_string
+    str = types.first.name.capitalize
+    str << " / #{types.last.name.capitalize}" if types.count > 1
+
+    str
+  end
 end
