@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get "/checklist", to: "checklist#show"
+  get "/checklist/create"
   resources :about, only: [:index]
   resources :types, only: %i[index show]
   resources :locations, only: %i[index show]
