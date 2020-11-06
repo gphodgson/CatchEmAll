@@ -1,11 +1,12 @@
 class ChecklistController < ApplicationController
   def show
     @checklist = Checklist.find_by(unique_url_id: params[:id])
+    @pokemons = Pokemon.all
   end
 
   def create
     list = Checklist.create(
-      title: "Untitled",
+      title:         "Untitled",
       unique_url_id: SecureRandom.uuid
     )
 
