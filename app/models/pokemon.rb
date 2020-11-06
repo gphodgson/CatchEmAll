@@ -21,6 +21,8 @@ class Pokemon < ApplicationRecord
   # Connected to `Locations` via `Encounters`
   # Has many `Pokemon_types`
   # Connected to `Types` via `Pokemon_Types`
+  # Has many `ListedPokemons`
+  # Connected to `Checklist` via `ListedPokemons`
   #
   #======================
 
@@ -29,6 +31,8 @@ class Pokemon < ApplicationRecord
   has_many :locations, through: :encounters
   has_many :pokemon_types
   has_many :types, through: :pokemon_types
+  has_many :listed_pokemons
+  has_many :checklists, through: :listed_pokemons
 
   validates :name, :alt_name, :pokedex_number, :description, :img, :thumb, presence: true
   validates :pokedex_number, numericality: { only_integer: true }

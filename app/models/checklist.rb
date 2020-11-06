@@ -1,7 +1,7 @@
 #======================
-# Location
+# Checklist
 #
-# Represents Encounters table in database.
+# Represents Checklist table in database.
 #
 # Feilds
 # --------------------------
@@ -16,4 +16,7 @@
 class Checklist < ApplicationRecord
   validates :unique_url_id, presence: true
   validates :unique_url_id, uniqueness: true
+
+  has_many :listed_pokemons
+  has_many :pokemons, through: :listed_pokemons
 end

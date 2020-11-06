@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_06_004800) do
+ActiveRecord::Schema.define(version: 2020_11_06_012937) do
 
   create_table "checklists", force: :cascade do |t|
     t.string "title"
@@ -29,6 +29,16 @@ ActiveRecord::Schema.define(version: 2020_11_06_004800) do
     t.string "game"
     t.index ["location_id"], name: "index_encounters_on_location_id"
     t.index ["pokemon_id"], name: "index_encounters_on_pokemon_id"
+  end
+
+  create_table "listed_pokemons", force: :cascade do |t|
+    t.boolean "caught"
+    t.integer "checklist_id", null: false
+    t.integer "pokemon_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["checklist_id"], name: "index_listed_pokemons_on_checklist_id"
+    t.index ["pokemon_id"], name: "index_listed_pokemons_on_pokemon_id"
   end
 
   create_table "locations", force: :cascade do |t|
@@ -81,6 +91,8 @@ ActiveRecord::Schema.define(version: 2020_11_06_004800) do
 
   add_foreign_key "encounters", "locations"
   add_foreign_key "encounters", "pokemons"
+  add_foreign_key "listed_pokemons", "checklists"
+  add_foreign_key "listed_pokemons", "pokemons"
   add_foreign_key "pokemon_types", "pokemons"
   add_foreign_key "pokemon_types", "types"
   add_foreign_key "stats", "pokemons"
