@@ -8,24 +8,24 @@
       <td style="flex: 1">Caught?</td>
     </thead>
     <tbody style="">
-      <% @pokemons.each do |pokemon| %>
-        <tr>
+      <% @checklist.listed_pokemons.each do |listed_pokemon| %>
+        <tr style="background: <%= listed_pokemon.caught ? @caught_color : @not_caught_color %>">
           <td style="width: 25px">
             <div style="line-height:48px; height:48px; vertical-align:middle;">
-             <%= "%03d" % pokemon.pokedex_number%>
+             <%= "%03d" % listed_pokemon.pokemon.pokedex_number%>
             </div>
           </td>
 
-          <td style="width: 60px"><img width="48" height="48" src="<%= pokemon.thumb %>" alt="<%= pokemon.name %>"></td>
+          <td style="width: 60px"><img width="48" height="48" src="<%= listed_pokemon.pokemon.thumb %>" alt="<%= listed_pokemon.pokemon.name %>"></td>
 
           <td style="width: 100px">
             <div style="line-height:48px; height:48px; vertical-align:middle;">
-              <%= link_to pokemon.name.capitalize, pokemon %>
+              <%= link_to listed_pokemon.pokemon.name.capitalize, listed_pokemon.pokemon %>
             </div>
           </td>
 
           <td style=""></td>
-          <td style="width: 25px"><input type="checkbox" name="<%= pokemon.name %>_check" id="<%= pokemon.name %>_check"></td>
+          <td style="width: 25px"><input type="checkbox" name="<%= listed_pokemon.pokemon.name %>_check" id="<%= listed_pokemon.pokemon.name %>_check"></td>
         </tr>
       <% end %>
     </tbody>

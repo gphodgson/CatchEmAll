@@ -2,6 +2,9 @@ class ChecklistController < ApplicationController
   def show
     @checklist = Checklist.find_by(unique_url_id: params[:id])
     @pokemons = @checklist.pokemons
+
+    @not_caught_color = "#ff9e9e"
+    @caught_color = "#75ff75"
   end
 
   def create
